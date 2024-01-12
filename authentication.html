@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<!-- Created by CodingLab |www.youtube.com/c/CodingLabYT-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <!--<title> Login and Registration Form in HTML & CSS | CodingLab </title>-->
+    <link rel="stylesheet" href="css/auth-style.css" />
+    <!-- Fontawesome CDN Link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div class="container">
+      <input type="checkbox" id="flip" />
+      <div class="cover">
+        <div class="front">
+          <img src="img/bg-hero1.jpg" alt="" />
+          <div class="text">
+            <span class="text-1"
+              >Every new member is a <br />
+              new adventure</span
+            >
+            <span class="text-2">Let's get connected</span>
+          </div>
+        </div>
+        <div class="back">
+          <img class="backImg" src="img/bg-hero1.jpg" alt="" />
+          <div class="text">
+            <span class="text-1"
+              >Complete miles of journey <br />
+              with one step</span
+            >
+            <span class="text-2">Let's get started</span>
+          </div>
+        </div>
+      </div>
+      <div class="forms">
+        <div class="form-content">
+          <div class="login-form">
+            <div class="title">Login</div>
+            <form id="loginForm">
+              <div class="input-boxes">
+                <div class="input-box">
+                  <i class="fas fa-envelope"></i>
+                  <input
+                    type="text"
+                    placeholder="Enter your email"
+                    name="Email"
+                    required
+                  />
+                </div>
+                <div class="input-box">
+                  <i class="fas fa-lock"></i>
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                  />
+                </div>
+                <div class="text"><a href="#">Forgot password?</a></div>
+                <div class="button input-box">
+                  <input type="submit" value="Sumbit" />
+                </div>
+                <!-- Display response message here -->
+                <div id="responseMessage"></div>
+                <div class="text sign-up-text">
+                  Don't have an account? <label for="flip">Sigup now</label>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="signup-form">
+            <div class="title">Signup</div>
+            <form id="signupForm">
+              <div class="input-boxes">
+                <div class="input-box">
+                  <i class="fas fa-user"></i>
+                  <input
+                    type="text"
+                    placeholder="Enter your name"
+                    name="username"
+                    required
+                  />
+                </div>
+                <div class="input-box">
+                  <i class="fas fa-envelope"></i>
+                  <input
+                    type="text"
+                    placeholder="Enter your email"
+                    name="email"
+                    required
+                  />
+                </div>
+                <div class="input-box">
+                  <i class="fas fa-lock"></i>
+                  <input
+                    type="password"
+                    placeholder="Enter your password"
+                    name="password"
+                    required
+                  />
+                </div>
+                <div class="button input-box">
+                  <input type="submit" value="Submit" />
+                </div>
+                <!-- Display response message here -->
+                <div id="responseMessage"></div>
+                <div class="text sign-up-text">
+                  Already have an account? <label for="flip">Login now</label>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $("#signupForm").submit(function (e) {
+          e.preventDefault();
+          //Create an object to hold form data
+          var formData = {
+            FullNames: $("#signupForm input[name='username']").val(),
+            Email: $("#signupForm input[name='email']").val(),
+            Password: $("#signupForm input[name='password']").val(),
+          };
+
+          console.log(formData);
+          // Send AJAX request
+          $.ajax({
+            url: "https://delivery-1dfg.onrender.com/api/auth/signup",
+            type: "POST",
+            data: JSON.stringify(formData),
+            contentType: "application/json",
+            success: function (response) {
+              console.log(response);
+              $("#responseMessage").html(
+                '<p style="color: green;">' + response.message + "</p>"
+              );
+            },
+            error: function (error) {
+              console.error(error);
+              // Handle errors
+              $("#responseMessage").html(
+                `<p style="color: red;">${error.message}</p>`
+              );
+            },
+          });
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        // Function to save access token to local storage
+        function saveAccessToken(token) {
+          console.log("Access Token:", token);
+          localStorage.setItem("access_token", token);
+        }
+
+        // Function to handle login form submission
+        $("#loginForm").submit(function (e) {
+          e.preventDefault();
+
+          // Create an object to hold login data
+          var loginData = {
+            Email: $("#loginForm input[name='Email']").val(),
+            Password: $("#loginForm input[name='password']").val(),
+          };
+
+          // Send AJAX request for login
+          $.ajax({
+            url: "https://delivery-1dfg.onrender.com/api/auth/login", // Update the URL with your server endpoint
+            type: "POST",
+            data: JSON.stringify(loginData),
+            contentType: "application/json", // Set content type to JSON
+            success: function (response) {
+              console.log(response);
+              $("#responseMessage").html(
+                '<p style="color: green;">' + response.message + "</p>"
+              );
+              // Save access token to local storage
+              saveAccessToken(response.access_token);
+              window.location.href = "./agency_delivery-form.html";
+              // Redirect or perform other actions after successful login
+              // For example, you can redirect to another page:
+            },
+            error: function (error) {
+              console.error(error);
+              // Handle login errors
+              // Handle errors
+              $("#responseMessage").html(
+                `<p style="color: red;">${error.message}</p>`
+              );
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
