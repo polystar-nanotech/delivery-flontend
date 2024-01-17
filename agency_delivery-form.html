@@ -36,6 +36,30 @@
           <form enctype="multipart/form-data" id="deliveryForm">
             <div class="form-row">
               <div class="form-group col-md-6">
+                <label for="transporterName">Sender Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="transporterName"
+                  name="sender_name"
+                  placeholder="Enter Sender name"
+                  required
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="transporterContact">Sender Contact</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="transporterContact"
+                  name="sender_contact"
+                  placeholder="Enter Sender contact"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
                 <label for="transporterName">Transporter Name</label>
                 <input
                   type="text"
@@ -169,7 +193,7 @@
           console.log(formData);
           // Send AJAX request
           $.ajax({
-            url: "https://delivery-1dfg.onrender.com/api/delivery/add",
+            url: "http://localhost:5000/api/delivery/add",
             type: "POST",
             data: formData,
             contentType: false, // Don't set content type (automatically set by FormData)
