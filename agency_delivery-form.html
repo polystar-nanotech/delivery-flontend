@@ -205,6 +205,9 @@
               $("#responseMessage").html(
                 '<p style="color: green;">' + response.message + "</p>"
               );
+              
+              // Reset the form
+              $("#deliveryForm")[0].reset();
             },
             error: function (error) {
               console.error(error);
