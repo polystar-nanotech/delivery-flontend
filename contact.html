@@ -121,7 +121,8 @@
                                   
                     <div class="col-md-6">
                         <div class="wow fadeInUp" data-wow-delay="0.2s">
-                            <form>
+                            <div id="responseMessage"></div>
+                            <form id="messageForm">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
@@ -150,6 +151,7 @@
                                     <div class="col-12">
                                         <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
                                     </div>
+                                    <div id="responseMessage"></div>
                                 </div>
                             </form>
                         </div>
@@ -245,6 +247,44 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script>
+        $(document).ready(function () {
+          // Handle form submission
+          $("#messageForm").submit(function (e) {
+            e.preventDefault();
+      
+            // Create form data
+            var formData = {
+              name: $("#name").val(),
+              email: $("#email").val(),
+              subject: $("#subject").val(),
+              message: $("#message").val(),
+            };
+      
+            // Send AJAX request
+            $.ajax({
+              url: "http://localhost:5000/api/contact/contact-us", // Adjust the URL to your server endpoint
+            //   url: "https://delivery-1dfg.onrender.com/api/api/contact/contact-us", // Adjust the URL to your server endpoint
+              type: "POST",
+              data: formData,
+              success: function (response) {
+                console.log(response);
+                // Handle the response from the server
+                $("#responseMessage").html(
+                  '<p style="color: green;">' + response.message + "</p>"
+                );
+              },
+              error: function (error) {
+                console.error(error);
+                // Handle errors
+                $("#responseMessage").html(
+                  `<p style="color: red;">${error.message}</p>`
+                );
+              },
+            });
+          });
+        });
+      </script>
 </body>
 
 </html>
