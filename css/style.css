@@ -4,7 +4,9 @@
     --light: #F1F8FF;
     --dark: #0F172B;
 }
-
+body{
+    background: var(--dark);
+}
 .ff-secondary {
     font-family: 'Pacifico', cursive;
 }
@@ -481,3 +483,17 @@
     padding-right: 0;
     border-right: none;
 }
+/* @media (max-width: 600px) {
+    #main-nav {
+        z-index: 999;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      /* transform: translateY(100%);  */
+    /* } */
+    /* #main-nav.active { */
+        /* show navbar on interaction */
+        /* transform: translateY(0); */
+      /* } */
+  /* } */ 
